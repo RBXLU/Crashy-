@@ -4,6 +4,7 @@ import dev.pycodder.crashy.glue.GlueEvents;
 import dev.pycodder.crashy.launcher.GrabManager;
 import dev.pycodder.crashy.physics.DebrisManager;
 import dev.pycodder.crashy.physics.ImpactTracker;
+import dev.pycodder.crashy.physics.ShatterQueue;
 import dev.pycodder.crashy.registry.CrashyBlockEntities;
 import dev.pycodder.crashy.registry.CrashyBlocks;
 import dev.pycodder.crashy.registry.CrashyComponents;
@@ -52,6 +53,7 @@ public class Crashy {
         NeoForge.EVENT_BUS.register(GlueEvents.class);
         NeoForge.EVENT_BUS.register(GrabManager.class);
         NeoForge.EVENT_BUS.register(ImpactTracker.class);
+        NeoForge.EVENT_BUS.register(ShatterQueue.class);
         NeoForge.EVENT_BUS.register(DebrisManager.class);
 
         container.registerConfig(ModConfig.Type.SERVER, CrashyConfig.SPEC);

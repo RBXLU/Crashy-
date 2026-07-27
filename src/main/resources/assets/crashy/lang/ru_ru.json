@@ -72,5 +72,6 @@
   "settings.crashy.scatter": "Разлёт осколков: %sx",
   "settings.crashy.speed": "Скорость запуска: %s м/с за силу",
   "settings.crashy.reset": "Сбросить настройки",
-  "settings.crashy.no_permission": "Менять настройки может только оператор"
+  "settings.crashy.no_permission": "Менять настройки может только оператор",
+  "settings.crashy.debris_rest": "Обломки лежат: %s с"
 }

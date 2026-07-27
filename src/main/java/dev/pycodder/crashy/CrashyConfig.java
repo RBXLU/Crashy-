@@ -42,6 +42,10 @@ public final class CrashyConfig {
     public static final ModConfigSpec.IntValue DEBRIS_MAX_LIFETIME;
     public static final ModConfigSpec.IntValue DEBRIS_SETTLE_DELAY;
 
+    // ----- performance -----
+    public static final ModConfigSpec.IntValue SHATTERS_PER_TICK;
+    public static final ModConfigSpec.IntValue MAX_LIVE_DEBRIS;
+
     static {
         final ModConfigSpec.Builder b = new ModConfigSpec.Builder();
 
@@ -90,10 +94,10 @@ public final class CrashyConfig {
                 .defineInRange("minImpactSpeed", 6.0, 0.5, 100.0);
         MAX_DESTRUCTION_RADIUS = b
                 .comment("Upper bound for the crater radius, in blocks.")
-                .defineInRange("maxDestructionRadius", 4.0, 0.0, 16.0);
+                .defineInRange("maxDestructionRadius", 6.0, 0.0, 16.0);
         MAX_WORLD_BLOCKS_DESTROYED = b
                 .comment("Hard cap of world blocks turned into debris by a single impact.")
-                .defineInRange("maxWorldBlocksDestroyed", 220, 0, 4000);
+                .defineInRange("maxWorldBlocksDestroyed", 400, 0, 4000);
         MAX_DEBRIS_PER_IMPACT = b
                 .comment("Hard cap of blocks the crashing object itself breaks into. If the object is larger, only the impacted region shatters.")
                 .defineInRange("maxDebrisPerImpact", 320, 1, 4000);
@@ -121,6 +125,19 @@ public final class CrashyConfig {
                 .defineInRange("blastForce", 40.0, 0.0, 2000.0);
         b.pop();
 
+        b.push("performance");
+        SHATTERS_PER_TICK = b
+                .comment("How many blocks may be turned into individual physics bodies per tick.",
+                        "Each one allocates a Sable plot, a chunk and a rigid body, so doing a whole",
+                        "crash at once is what used to take the server down. Raise carefully.")
+                .defineInRange("shattersPerTick", 12, 1, 512);
+        MAX_LIVE_DEBRIS = b
+                .comment("Hard ceiling on debris alive in the world at once. When it is reached the rest",
+                        "of the pending crash is abandoned: the crater comes out smaller instead of the",
+                        "game stalling. Blocks that never get shattered are left standing, not deleted.")
+                .defineInRange("maxLiveDebris", 300, 0, 8000);
+        b.pop();
+
         b.push("debris");
         SETTLE_DEBRIS = b
                 .comment("Turn resting debris back into ordinary world blocks. Strongly recommended: without it every",
@@ -130,8 +147,9 @@ public final class CrashyConfig {
                 .comment("Debris is force-settled after this many ticks no matter what.")
                 .defineInRange("maxLifetimeTicks", 600, 20, 24000);
         DEBRIS_SETTLE_DELAY = b
-                .comment("Ticks a shard has to stay nearly motionless before it settles.")
-                .defineInRange("settleDelayTicks", 40, 1, 1200);
+                .comment("Starting value for the F7 \"debris lies for\" setting in a new world, in ticks.",
+                        "Once a world exists the F7 value owns it; this only seeds it.")
+                .defineInRange("settleDelayTicks", 200, 1, 2400);
         b.pop();
 
         SPEC = b.build();

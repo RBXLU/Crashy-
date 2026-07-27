@@ -148,7 +148,7 @@ instead. Nearby TNT chains, up to 24 charges per crash.
 1. Minecraft **1.21.1** with **[NeoForge](https://neoforged.net/) 21.1.0+**
 2. **[Sable](https://modrinth.com/mod/sable) 2.0.0+** and its dependencies (Veil, Forge Config API
    Port)
-3. Drop `crashy-1.21.1-1.0+neoforge.jar` into `mods`
+3. Drop `crashy-1.21.1-1.1+neoforge.jar` into `mods`
 
 Sable is an intrusive, mixin-heavy mod and can conflict with other mods that touch world rendering
 or chunk handling. If something breaks, check whether Sable alone reproduces it before opening an
@@ -176,7 +176,8 @@ Most settings live on **F7**, alongside the destruction mode. The file
 | `launcher` | hold distance, speed per power level, charge rate |
 | `destruction` | minimum impact speed, maximum crater radius, debris limits |
 | `tnt` | radius, scatter and breaking force of a TNT blast |
-| `debris` | whether debris settles back into blocks, and after how long |
+| `performance` | shatter budget per tick and the ceiling on live debris |
+| `debris` | whether debris settles back into blocks, and how long it lies there first |
 
 If shards look like they "snap back" a second after the crash, raise `debrisScatter`: a shard that
 never moves counts as settled and gets written straight back where it broke off.

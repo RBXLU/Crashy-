@@ -31,6 +31,12 @@ import java.util.List;
 public final class ImpactTracker {
 
     private static final int MAX_TRACK_TICKS = 600;
+
+    /**
+     * Breathing room between two impacts by the same body, so ploughing through a floor registers
+     * as one crash rather than one per tick of contact.
+     */
+    private static final int TICKS_BETWEEN_IMPACTS = 6;
     private static final int MAX_SCANNED_POSITIONS = 24_000;
 
     private static final List<Tracked> TRACKED = new ArrayList<>();
@@ -44,6 +50,8 @@ public final class ImpactTracker {
         private final int power;
         private final Vector3d launchPosition;
         private int age;
+        /** Ticks left before this body may hit something again. */
+        private int cooldown;
 
         private Tracked(final ServerSubLevel subLevel, final ResourceKey<Level> dimension, final int power) {
             this.subLevel = subLevel;
@@ -102,6 +110,11 @@ public final class ImpactTracker {
                 CrashyEffects.trail(level, position, speed);
             }
 
+            if (tracked.cooldown > 0) {
+                tracked.cooldown--;
+                continue;
+            }
+
             if (tracked.age < 2 || position.distance(tracked.launchPosition) < 1.5) {
                 continue;
             }
@@ -111,8 +124,17 @@ public final class ImpactTracker {
                 continue;
             }
 
-            iterator.remove();
             Destruction.crash(level, tracked.subLevel, hits, velocity, tracked.power);
+
+            // Something big enough to punch through the ground keeps going, and keeps breaking what
+            // it meets. Only what is actually gone stops being tracked.
+            if (tracked.subLevel.isRemoved()) {
+                iterator.remove();
+                continue;
+            }
+
+            tracked.cooldown = TICKS_BETWEEN_IMPACTS;
+            tracked.launchPosition.set(position);
         }
     }
 

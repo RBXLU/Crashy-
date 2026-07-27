@@ -39,6 +39,16 @@ public final class Destruction {
     /** Chain reactions have to stop somewhere. */
     private static final int MAX_TNT_PER_CRASH = 24;
 
+    /**
+     * Crater radius per cube root of energy. Crater volume scaling with energy is roughly how it
+     * works in reality, and it happens to give the numbers we want: a single block at launch speed
+     * digs about one block, a 400-block build digs the full configured radius.
+     */
+    private static final double CRATER_PER_ENERGY = 0.09;
+
+    /** Breaking force per cube root of energy. See {@link #impactForce}. */
+    private static final double FORCE_PER_ENERGY = 0.6;
+
     private Destruction() {
     }
 
@@ -69,33 +79,36 @@ public final class Destruction {
             return;
         }
 
+        // What the object actually brings to the collision. A pebble and a tower travelling at the
+        // same speed used to dig identical craters, which is the wrong way round in every respect.
+        final double energy = kineticEnergy(projectile, speed);
+
         final double radius = Mth.clamp(
-                1.0 + speed / 14.0 + power * 0.12,
-                1.0,
+                CRATER_PER_ENERGY * Math.cbrt(energy),
+                0.0,
                 CrashyConfig.MAX_DESTRUCTION_RADIUS.get()) * settings.radiusScale();
 
-        if (radius <= 0.0) {
+        if (radius < 0.5) {
+            // Not enough behind it to break anything — just the noise and a puff.
             playCrashSound(level, impact, speed);
+            CrashyEffects.impact(level, impact, 1.0, speed, hitBlocks);
             return;
         }
 
         final double scatter = CrashyConfig.DEBRIS_SCATTER.get() * settings.scatterScale();
 
         final List<Blast> blasts = new ArrayList<>();
-        blasts.add(new Blast(impact, radius, impactForce(speed, power), scatter));
+        blasts.add(new Blast(impact, radius, impactForce(energy, power), scatter));
 
         final List<Vector3d> tntCenters = detonateTnt(level, settings, impact, radius, blasts);
 
-        final List<ServerSubLevel> debris = new ArrayList<>();
-
-        // The object first: capture its momentum before it stops existing as one body.
-        shatterProjectile(level, settings, projectile, impact, radius, velocity, blasts, debris);
+        // Both of these queue work rather than doing it: see ShatterQueue for why.
+        shatterProjectile(level, settings, projectile, impact, radius, velocity, blasts);
 
         if (settings.destroyWorld()) {
-            shatterWorld(level, settings, blasts, direction, speed, debris);
+            shatterWorld(level, settings, blasts, direction, speed);
         }
 
-        DebrisManager.track(level, debris);
         CrashyEffects.impact(level, impact, radius, speed, hitBlocks);
         for (final Vector3d tnt : tntCenters) {
             CrashyEffects.tntBlast(level, tnt);
@@ -105,14 +118,30 @@ public final class Destruction {
     }
 
     /**
-     * How hard the crash itself hits, in blast-resistance units.
-     *
-     * <p>Tuned so a power-8 launch (about 64 m/s) lands around 16: enough to scatter planks
-     * (resistance 3) across the whole crater but only break cobblestone (resistance 6) near the
-     * middle, which is exactly the "wood explodes, stone chips" feel.
+     * Kinetic energy of the projectile, in joules-ish. Sable masses blocks at roughly 1 kg each by
+     * default, so this scales with how much of a build is actually arriving.
      */
-    private static double impactForce(final double speed, final int power) {
-        return speed * 0.125 + power;
+    private static double kineticEnergy(final ServerSubLevel projectile, final double speed) {
+        final double mass = Math.max(1.0, SableBridge.mass(projectile));
+        return 0.5 * mass * speed * speed;
+    }
+
+    /**
+     * How hard the crash hits, in blast-resistance units.
+     *
+     * <p>Cube-rooted so the numbers stay in the same range as block resistances instead of running
+     * away with the mass. At 64 m/s that gives roughly:
+     *
+     * <ul>
+     *     <li>1 block at launch speed — force 12, crater about 1 block</li>
+     *     <li>20 blocks — force 25, crater about 3</li>
+     *     <li>400 blocks — force 60, crater at the configured maximum</li>
+     * </ul>
+     *
+     * <p>Obsidian (resistance 1200) survives all of it, which is the intent.
+     */
+    private static double impactForce(final double energy, final int power) {
+        return FORCE_PER_ENERGY * Math.cbrt(energy) + power * 0.5;
     }
 
     /**
@@ -193,8 +222,7 @@ public final class Destruction {
                                           final Vector3d impact,
                                           final double radius,
                                           final Vector3d velocity,
-                                          final List<Blast> blasts,
-                                          final List<ServerSubLevel> debris) {
+                                          final List<Blast> blasts) {
         final BoundingBox3ic bounds = SableBridge.plotBounds(projectile);
         if (bounds == null) {
             return;
@@ -260,16 +288,12 @@ public final class Destruction {
                 continue;
             }
 
-            final ServerSubLevel shard = SableBridge.shatterSingleBlock(level, plotPos);
-            if (shard == null) {
-                continue;
-            }
-            // Sable already gave the shard the object's velocity, so this only adds the bounce-back.
+            // Sable gives each shard the object's velocity when it splits off, so this is only the
+            // bounce-back on top of it.
             final Vector3d push = blastPush(blasts, worldPos)
                     .fma(-0.3, velocity)
                     .add(jitter(random, 2.0));
-            SableBridge.addVelocity(shard, push, spin(random));
-            debris.add(shard);
+            ShatterQueue.enqueue(level, plotPos, push, spin(random), true);
         }
     }
 
@@ -279,8 +303,7 @@ public final class Destruction {
                                      final CrashySettingsData settings,
                                      final List<Blast> blasts,
                                      final Vector3d direction,
-                                     final double speed,
-                                     final List<ServerSubLevel> debris) {
+                                     final double speed) {
         final int limit = CrashyConfig.MAX_WORLD_BLOCKS_DESTROYED.get();
         if (limit <= 0) {
             return;
@@ -336,16 +359,10 @@ public final class Destruction {
 
             final Vector3d worldPos = new Vector3d(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
 
-            final ServerSubLevel shard = SableBridge.shatterSingleBlock(level, pos);
-            if (shard == null) {
-                continue;
-            }
-
             final Vector3d push = blastPush(blasts, worldPos)
                     .add(forward)
                     .add(jitter(random, 2.5));
-            SableBridge.addVelocity(shard, push, spin(random));
-            debris.add(shard);
+            ShatterQueue.enqueue(level, pos, push, spin(random), false);
         }
     }
 
@@ -389,8 +406,13 @@ public final class Destruction {
             total.fma(blast.strength() * falloff / distance, away);
         }
 
-        // A little lift so debris arcs instead of scraping along the ground.
-        total.y += 1.5;
+        // Lift, scaled to the blast rather than fixed, so ground debris actually hops clear of the
+        // crater instead of grinding along the floor and settling straight back into the hole.
+        double strongest = 0.0;
+        for (final Blast blast : blasts) {
+            strongest = Math.max(strongest, blast.strength());
+        }
+        total.y += 1.5 + strongest * 0.2;
         return total;
     }
 

@@ -2,6 +2,7 @@ package dev.pycodder.crashy.physics;
 
 import dev.pycodder.crashy.CrashyConfig;
 import dev.pycodder.crashy.settings.CrashySettings;
+import dev.pycodder.crashy.settings.CrashySettingsData;
 import dev.ryanhcode.sable.sublevel.ServerSubLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -59,6 +60,11 @@ public final class DebrisManager {
         }
     }
 
+    /** How many shards are currently live. {@link ShatterQueue} uses this as its budget. */
+    public static int liveCount() {
+        return DEBRIS.size();
+    }
+
     public static void track(final ServerLevel level, final Collection<ServerSubLevel> shards) {
         for (final ServerSubLevel shard : shards) {
             DEBRIS.add(new Debris(shard, level.dimension()));
@@ -73,9 +79,15 @@ public final class DebrisManager {
 
         final MinecraftServer server = event.getServer();
 
-        final boolean settle = CrashySettings.of(server).settleDebris();
-        final int settleDelay = CrashyConfig.DEBRIS_SETTLE_DELAY.get();
-        final int maxLifetime = CrashyConfig.DEBRIS_MAX_LIFETIME.get();
+        final CrashySettingsData settings = CrashySettings.of(server);
+        final boolean settle = settings.settleDebris();
+
+        // How long a shard is allowed to lie there before it becomes a block again. Player-facing,
+        // because "the crater healed itself while I was looking at it" is a pacing complaint, not a
+        // technical one.
+        final int restTicks = (int) Math.round(settings.debrisRestSeconds() * 20.0);
+        final int maxLifetime = Math.max(restTicks + MIN_AGE_BEFORE_SETTLING,
+                CrashyConfig.DEBRIS_MAX_LIFETIME.get());
 
         final Iterator<Debris> iterator = DEBRIS.iterator();
 
@@ -105,7 +117,7 @@ public final class DebrisManager {
             final double speed = SableBridge.linearVelocity(debris.subLevel, new Vector3d()).length();
             debris.restingTicks = speed < RESTING_SPEED ? debris.restingTicks + 1 : 0;
 
-            final boolean settled = debris.age >= MIN_AGE_BEFORE_SETTLING && debris.restingTicks >= settleDelay;
+            final boolean settled = debris.age >= MIN_AGE_BEFORE_SETTLING && debris.restingTicks >= restTicks;
             if (settled || debris.age >= maxLifetime) {
                 iterator.remove();
                 settle(level, debris.subLevel);

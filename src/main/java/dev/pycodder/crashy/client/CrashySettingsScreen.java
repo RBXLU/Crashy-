@@ -97,13 +97,21 @@ public class CrashySettingsScreen extends Screen {
                 value -> this.working = this.working.withSpeedPerPower(value)))
                 .active = this.editable;
 
+        this.addRenderableWidget(slider(right, y, "settings.crashy.debris_rest",
+                CrashySettingsData.MIN_DEBRIS_REST, CrashySettingsData.MAX_DEBRIS_REST,
+                this.working.debrisRestSeconds(),
+                value -> this.working = this.working.withDebrisRestSeconds(value)))
+                .active = this.editable;
+
+        y += WIDGET_HEIGHT + GAP;
+
         this.addRenderableWidget(Button.builder(
                         Component.translatable("settings.crashy.reset"),
                         button -> {
                             this.working = CrashySettingsData.DEFAULT;
                             this.rebuildWidgets();
                         })
-                .bounds(right, y, WIDGET_WIDTH, WIDGET_HEIGHT)
+                .bounds(left, y, WIDGET_WIDTH * 2 + GAP, WIDGET_HEIGHT)
                 .build())
                 .active = this.editable;
 
