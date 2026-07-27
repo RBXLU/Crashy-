@@ -95,7 +95,11 @@ public final class ImpactTracker {
         while (iterator.hasNext()) {
             final Tracked tracked = iterator.next();
 
-            if (tracked.subLevel.isRemoved() || ++tracked.age > MAX_TRACK_TICKS) {
+            // A body that has lost its mass is on its way out of the pipeline; treating it as a
+            // projectile means poking a physics body that no longer has a centre of mass.
+            if (tracked.subLevel.isRemoved()
+                    || !SableBridge.hasMass(tracked.subLevel)
+                    || ++tracked.age > MAX_TRACK_TICKS) {
                 iterator.remove();
                 continue;
             }

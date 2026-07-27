@@ -181,7 +181,9 @@ public final class GrabManager {
         if (holdingHand(player) == null) {
             return false;
         }
-        if (grab.subLevel.isRemoved()) {
+        // Same reason as in ImpactTracker: no mass means no centre of mass, and driving its
+        // velocity would hand Rapier a body it cannot step.
+        if (grab.subLevel.isRemoved() || !SableBridge.hasMass(grab.subLevel)) {
             return false;
         }
 

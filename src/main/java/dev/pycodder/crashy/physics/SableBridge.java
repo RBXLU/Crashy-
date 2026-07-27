@@ -4,6 +4,7 @@ import dev.pycodder.crashy.Crashy;
 import dev.ryanhcode.sable.Sable;
 import dev.ryanhcode.sable.api.SubLevelAssemblyHelper;
 import dev.ryanhcode.sable.api.physics.handle.RigidBodyHandle;
+import dev.ryanhcode.sable.api.physics.mass.MassData;
 import dev.ryanhcode.sable.api.sublevel.ServerSubLevelContainer;
 import dev.ryanhcode.sable.api.sublevel.SubLevelContainer;
 import dev.ryanhcode.sable.companion.SubLevelAccess;
@@ -58,8 +59,17 @@ public final class SableBridge {
         return null;
     }
 
+    /**
+     * The physics handle for a body, or {@code null} if it must not be touched.
+     *
+     * <p>The mass check is the important one. A body whose blocks have just been moved out has no
+     * mass and no centre of mass, but Sable does not drop it from the pipeline until its container
+     * ticks again. Sable's own code never pokes a body in that window; this mod does — it applies
+     * velocity to shards the moment they are split off — and a body with no centre of mass makes
+     * Rapier abort the process with "No center of mass for body!" on the next physics step.
+     */
     public static @Nullable RigidBodyHandle handle(final ServerSubLevel subLevel) {
-        if (subLevel.isRemoved()) {
+        if (subLevel.isRemoved() || !hasMass(subLevel)) {
             return null;
         }
         try {
@@ -67,6 +77,16 @@ public final class SableBridge {
             return handle != null && handle.isValid() ? handle : null;
         } catch (final RuntimeException e) {
             return null;
+        }
+    }
+
+    /** True when the body has usable mass data — real mass and a centre of mass. */
+    public static boolean hasMass(final ServerSubLevel subLevel) {
+        try {
+            final MassData mass = subLevel.getMassTracker();
+            return mass != null && !mass.isInvalid() && mass.getCenterOfMass() != null;
+        } catch (final RuntimeException e) {
+            return false;
         }
     }
 
@@ -138,7 +158,7 @@ public final class SableBridge {
 
         try {
             final ServerSubLevel subLevel = SubLevelAssemblyHelper.assembleBlocks(level, anchor, blocks, bounds);
-            if (subLevel == null || subLevel.isRemoved() || subLevel.getMassTracker().isInvalid()) {
+            if (subLevel == null || subLevel.isRemoved() || !hasMass(subLevel)) {
                 return null;
             }
             return subLevel;
@@ -207,7 +227,10 @@ public final class SableBridge {
                 for (int z = bounds.minZ(); z <= bounds.maxZ(); z++) {
                     cursor.set(x, y, z);
                     if (!level.getBlockState(cursor).isAir()) {
-                        level.setBlock(cursor, Blocks.AIR.defaultBlockState(), Block.UPDATE_CLIENTS);
+                        // UPDATE_ALL, not UPDATE_CLIENTS: Sable tracks voxel neighbourhood state to
+                        // bake colliders, and skipping neighbour updates leaves it stale — colliders
+                        // for blocks that are gone, on a body that no longer has any mass.
+                        level.setBlock(cursor, Blocks.AIR.defaultBlockState(), Block.UPDATE_ALL);
                     }
                 }
             }
