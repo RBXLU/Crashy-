@@ -148,7 +148,7 @@ instead. Nearby TNT chains, up to 24 charges per crash.
 1. Minecraft **1.21.1** with **[NeoForge](https://neoforged.net/) 21.1.0+**
 2. **[Sable](https://modrinth.com/mod/sable) 2.0.0+** and its dependencies (Veil, Forge Config API
    Port)
-3. Drop `crashy-neoforge-1.21.1-<version>.jar` into `mods`
+3. Drop `crashy-1.21.1-1.0+neoforge.jar` into `mods`
 
 Sable is an intrusive, mixin-heavy mod and can conflict with other mods that touch world rendering
 or chunk handling. If something breaks, check whether Sable alone reproduces it before opening an

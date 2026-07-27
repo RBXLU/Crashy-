@@ -130,7 +130,7 @@ Sable даёт физику, но не даёт способа пользова�
 
 1. Minecraft **1.21.1** + **NeoForge 21.1.x**
 2. **Sable 2.0.0+** — https://modrinth.com/mod/sable (вместе с его зависимостями: Veil, Forge Config API Port)
-3. `crashy-neoforge-1.21.1-1.2.0.jar` в папку `mods`
+3. `crashy-1.21.1-1.0+neoforge.jar` в папку `mods`
 
 ---
 
