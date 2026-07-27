@@ -2,6 +2,11 @@
 
 **Glue your build together. Switch on physics. Throw it at something.**
 
+<p align="center">
+<a href="https://neoforged.net/"><img alt="Works with NeoForge" height="56" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3.3.1/assets/cozy/supported/neoforge_vector.svg"></a>
+<a href="https://modrinth.com/mod/sable"><img alt="Powered by Sable" height="56" src="https://cdn.modrinth.com/data/cached_images/d13ac17ef50ed090e7d21fcae0caf8958eeece3d.png"></a>
+</p>
+
 Crashy! is a survival-friendly toolkit for [**Sable**](https://modrinth.com/mod/sable), the
 sub-level physics library. Sable gives Minecraft real rigid-body physics but deliberately adds no
 way to use it in-game — Crashy! is that way. Five items and blocks, one gameplay loop, and a lot of
@@ -47,6 +52,13 @@ throws at about 80 m/s.
 **Build Saver** — a drafting table that records the build attached to it. Right-click it with a
 **Blueprint** to copy the structure onto the blueprint, then stamp that build out anywhere, already
 glued. Blueprints are reusable and never overwrite blocks that are already there.
+
+---
+
+<p align="center">
+<b>Enjoying Crashy?</b><br><br>
+<a href="https://ko-fi.com/pycodder"><img alt="Support me on Ko-fi" height="56" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3.3.1/assets/cozy/donate/kofi-plural_vector.svg"></a>
+</p>
 
 ---
 
@@ -153,6 +165,11 @@ Crashy! — это набор инструментов для выживания
 - **Запускатель** — взять, зарядить, выстрелить. Сила 1–10, по умолчанию ~8 м/с за единицу.
 - **Сохранитель построек** и **Чертёж** — записывают постройку и вставляют её где угодно, уже
   склеенной. Чертёж многоразовый и не затирает чужие блоки.
+
+<p align="center">
+<b>Нравится Crashy?</b><br><br>
+<a href="https://ko-fi.com/pycodder"><img alt="Поддержать на Ko-fi" height="56" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3.3.1/assets/cozy/donate/kofi-plural_vector.svg"></a>
+</p>
 
 ### Настройки на F7
 

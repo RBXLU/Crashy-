@@ -2,6 +2,12 @@
 
 **Glue your build together. Switch on physics. Throw it at something.**
 
+<p align="center">
+<a href="https://modrinth.com/mod/crashy"><img alt="Available on Modrinth" height="56" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3.3.1/assets/cozy/available/modrinth_vector.svg"></a>
+<a href="https://neoforged.net/"><img alt="Works with NeoForge" height="56" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3.3.1/assets/cozy/supported/neoforge_vector.svg"></a>
+<a href="https://modrinth.com/mod/sable"><img alt="Powered by Sable" height="56" src="https://cdn.modrinth.com/data/cached_images/d13ac17ef50ed090e7d21fcae0caf8958eeece3d.png"></a>
+</p>
+
 Crashy! is a survival-friendly toolkit for **Sable**, the sub-level physics library. Sable gives
 Minecraft real rigid-body physics but deliberately adds no way to use it in-game — Crashy! is that
 way. Five items and blocks, one gameplay loop, and a lot of rubble.
@@ -39,6 +45,11 @@ and eventually settles back into the world as ordinary blocks.
 - **Build Saver** — a drafting table that records the build attached to it.
 - **Blueprint** — copy a saved build off the Build Saver and stamp it out anywhere, already glued.
   Reusable, and it never overwrites blocks that are already there.
+
+<p align="center">
+<b>Enjoying Crashy?</b><br><br>
+<a href="https://ko-fi.com/pycodder"><img alt="Support me on Ko-fi" height="56" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3.3.1/assets/cozy/donate/kofi-plural_vector.svg"></a>
+</p>
 
 ## Destruction settings — press F7
 
@@ -135,6 +146,11 @@ Crashy! — набор инструментов для выживания пов
 - **Сохранитель построек** — записывает постройку, к которой приставлен.
 - **Чертёж** — переносит записанную постройку куда угодно, уже склеенной. Многоразовый, чужие блоки
   не затирает.
+
+<p align="center">
+<b>Нравится Crashy?</b><br><br>
+<a href="https://ko-fi.com/pycodder"><img alt="Поддержать на Ko-fi" height="56" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3.3.1/assets/cozy/donate/kofi-plural_vector.svg"></a>
+</p>
 
 ## Настройки на F7
 

@@ -27,3 +27,17 @@ Suggested tags/keywords: physics, destruction, sable, blocks, sandbox, rigid bod
 Required dependency to declare on both platforms:
   Sable — https://modrinth.com/mod/sable  (version 2.0.0 or newer)
 Sable pulls in Veil and Forge Config API Port itself; list them only if the platform asks.
+
+
+Links used in the badge rows
+
+  Modrinth page   https://modrinth.com/mod/crashy
+  NeoForge        https://neoforged.net/
+  Sable           https://modrinth.com/mod/sable
+  Ko-fi           https://ko-fi.com/pycodder
+
+The "Available on Modrinth" badge appears only in the CurseForge description — on the Modrinth
+page itself it would link to the page the reader is already on. Add a matching "Available on
+CurseForge" badge to the Modrinth description once that project exists:
+
+  https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3.3.1/assets/cozy/available/curseforge_vector.svg

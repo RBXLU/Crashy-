@@ -4,8 +4,7 @@
 
 ### Glue your build together. Switch on physics. Throw it at something.
 
-<!-- TODO: once the Modrinth page is live, wrap this badge in <a href="https://modrinth.com/mod/YOUR-SLUG"> ... </a> -->
-<img alt="Available on Modrinth" height="56" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3.3.1/assets/cozy/available/modrinth_vector.svg">
+<a href="https://modrinth.com/mod/crashy"><img alt="Available on Modrinth" height="56" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3.3.1/assets/cozy/available/modrinth_vector.svg"></a>
 <a href="https://neoforged.net/"><img alt="Works with NeoForge" height="56" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3.3.1/assets/cozy/supported/neoforge_vector.svg"></a>
 <a href="https://modrinth.com/mod/sable"><img alt="Powered by Sable" height="56" src="https://cdn.modrinth.com/data/cached_images/d13ac17ef50ed090e7d21fcae0caf8958eeece3d.png"></a>
 
