@@ -193,9 +193,6 @@ dev.pycodder.crashy
 └── registry/           предметы, блоки, block entity, звуки, компоненты, вкладка
 ```
 
-Ассеты генерируются скриптами в `tools/` (`make_textures.py`, `make_sounds.py`, `make_logo.py`) — их можно
-править и перезапускать, а не ковырять PNG вручную.
-
 ---
 
 ## Лицензия
