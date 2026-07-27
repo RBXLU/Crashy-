@@ -37,6 +37,18 @@ public final class ImpactTracker {
      * as one crash rather than one per tick of contact.
      */
     private static final int TICKS_BETWEEN_IMPACTS = 6;
+
+    /**
+     * How many times one launch may break something before it is left alone.
+     *
+     * <p>An object buried in solid rock finds blocks on every check and never escapes, so without a
+     * ceiling it would keep carving craters for the full tracking window and keep the debris pool
+     * permanently saturated.
+     */
+    private static final int MAX_IMPACTS_PER_LAUNCH = 5;
+
+    /** Below this the object is mostly gone and no longer worth treating as a projectile. */
+    private static final double MIN_TRACKED_MASS = 2.0;
     private static final int MAX_SCANNED_POSITIONS = 24_000;
 
     private static final List<Tracked> TRACKED = new ArrayList<>();
@@ -52,6 +64,7 @@ public final class ImpactTracker {
         private int age;
         /** Ticks left before this body may hit something again. */
         private int cooldown;
+        private int impacts;
 
         private Tracked(final ServerSubLevel subLevel, final ResourceKey<Level> dimension, final int power) {
             this.subLevel = subLevel;
@@ -129,6 +142,12 @@ public final class ImpactTracker {
             // Something big enough to punch through the ground keeps going, and keeps breaking what
             // it meets. Only what is actually gone stops being tracked.
             if (tracked.subLevel.isRemoved()) {
+                iterator.remove();
+                continue;
+            }
+
+            if (++tracked.impacts >= MAX_IMPACTS_PER_LAUNCH
+                    || SableBridge.mass(tracked.subLevel) < MIN_TRACKED_MASS) {
                 iterator.remove();
                 continue;
             }

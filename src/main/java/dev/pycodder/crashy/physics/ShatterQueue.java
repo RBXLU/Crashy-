@@ -30,6 +30,15 @@ import java.util.List;
  */
 public final class ShatterQueue {
 
+    /**
+     * Upper bound on outstanding work.
+     *
+     * <p>Without it an object ploughing through solid rock keeps queueing a crater's worth of jobs
+     * every few ticks, and the deque grows until the process is starved. Extra jobs are dropped:
+     * the blocks they would have broken stay standing.
+     */
+    private static final int MAX_QUEUED = 4096;
+
     private static final Deque<Job> QUEUE = new ArrayDeque<>();
 
     private ShatterQueue() {
@@ -53,6 +62,9 @@ public final class ShatterQueue {
                                final Vector3d push,
                                final Vector3d spin,
                                final boolean plotSpace) {
+        if (QUEUE.size() >= MAX_QUEUED) {
+            return;
+        }
         QUEUE.add(new Job(level.dimension(), pos.immutable(), new Vector3d(push), new Vector3d(spin), plotSpace));
     }
 

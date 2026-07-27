@@ -130,12 +130,12 @@ public final class CrashyConfig {
                 .comment("How many blocks may be turned into individual physics bodies per tick.",
                         "Each one allocates a Sable plot, a chunk and a rigid body, so doing a whole",
                         "crash at once is what used to take the server down. Raise carefully.")
-                .defineInRange("shattersPerTick", 12, 1, 512);
+                .defineInRange("shattersPerTick", 8, 1, 512);
         MAX_LIVE_DEBRIS = b
                 .comment("Hard ceiling on debris alive in the world at once. When it is reached the rest",
                         "of the pending crash is abandoned: the crater comes out smaller instead of the",
                         "game stalling. Blocks that never get shattered are left standing, not deleted.")
-                .defineInRange("maxLiveDebris", 300, 0, 8000);
+                .defineInRange("maxLiveDebris", 150, 0, 8000);
         b.pop();
 
         b.push("debris");
