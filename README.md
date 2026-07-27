@@ -115,6 +115,10 @@ build.
 Plus sliders for block toughness, crater size, debris scatter and launch speed, and toggles for
 world destruction, TNT blasts and debris settling.
 
+**Bedrock is never destroyed, in any mode**, along with anything else that cannot be mined —
+barriers, command blocks, end portal frames. Obsidian survives Realistic mode but not Instant,
+which breaks whatever is inside the radius by design.
+
 Settings live **in the world** and are shared by everyone on the server. Only operators — or the
 host of a single-player world — can change them; everyone else sees the panel greyed out.
 

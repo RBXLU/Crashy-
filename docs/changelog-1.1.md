@@ -30,14 +30,21 @@ not simply drop back into the hole it came from.
 same speed used to dig identical craters. Both crater size and breaking force are now driven by the
 projectile's kinetic energy, so at full launch speed:
 
-| Object | Crater | Breaks |
+| Object | Crater | Breaking force |
 | --- | --- | --- |
-| 1 block | ~1 block | glass, planks, barely cobblestone |
-| 20 blocks | ~3 blocks | up to cobblestone comfortably |
-| 150+ blocks | the configured maximum | almost anything except obsidian |
+| 1 block | ~1 block | 12 — glass, planks, barely cobblestone |
+| 20 blocks | ~3 blocks | 25 — cobblestone comfortably |
+| 150+ blocks | the configured maximum | 45+ — everything short of obsidian |
 
 Crater volume scaling with energy is roughly how it works in reality, and it happens to give the
 numbers the game wants.
+
+The force column only bites in **Realistic** mode, where it is weighed against each block's blast
+resistance. **Instant** mode breaks whatever is inside the radius by definition, obsidian included.
+
+**Bedrock is never destroyed, in any mode.** Nor is anything else with a hardness of -1 — barriers,
+command blocks, end portal frames, structure blocks. They are skipped before any force calculation
+happens.
 
 To give that scaling room, the default maximum crater radius went from 4 to 6 blocks and the
 per-impact world block cap from 220 to 400.
