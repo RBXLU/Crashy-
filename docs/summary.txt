@@ -1,0 +1,29 @@
+Short summaries for the platform metadata fields (not the body text).
+
+Modrinth "Summary" — max 256 characters:
+
+Glue your build together, switch on physics, then grab it with the Launcher and throw it at
+something. Everything shatters on impact. Powered by Sable.
+
+(155 characters)
+
+
+CurseForge "Summary":
+
+Glue your build together, switch on physics, then throw it at something and watch both sides
+shatter. A survival toolkit for the Sable physics library.
+
+(151 characters)
+
+
+Suggested categories
+
+Modrinth:   Adventure, Equipment, Game Mechanics, Library-dependent (pick what fits)
+CurseForge: Adventure and RPG, Miscellaneous, Redstone
+
+Suggested tags/keywords: physics, destruction, sable, blocks, sandbox, rigid body
+
+
+Required dependency to declare on both platforms:
+  Sable — https://modrinth.com/mod/sable  (version 2.0.0 or newer)
+Sable pulls in Veil and Forge Config API Port itself; list them only if the platform asks.

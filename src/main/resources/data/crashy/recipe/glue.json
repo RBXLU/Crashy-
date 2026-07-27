@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    " S ",
+    "SHS",
+    " S "
+  ],
+  "key": {
+    "S": { "item": "minecraft:slime_ball" },
+    "H": { "item": "minecraft:honey_bottle" }
+  },
+  "result": { "id": "crashy:glue", "count": 1 }
+}

@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "pattern": [
+    "CCC",
+    "CLC",
+    "CRC"
+  ],
+  "key": {
+    "C": { "item": "minecraft:copper_ingot" },
+    "L": { "item": "minecraft:lapis_block" },
+    "R": { "item": "minecraft:redstone" }
+  },
+  "result": { "id": "crashy:build_saver", "count": 1 }
+}
