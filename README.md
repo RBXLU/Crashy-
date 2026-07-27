@@ -210,10 +210,6 @@ dev.pycodder.crashy
 └── registry/           items, blocks, block entities, sounds, components, tab
 ```
 
-Assets are **generated**, not hand-edited: `tools/make_textures.py`, `tools/make_sounds.py` and
-`tools/make_logo.py` produce the 16×16 textures, the synthesised sounds and the mod icon. Edit the
-scripts and re-run them rather than opening the PNGs.
-
 ## Licence
 
 MIT — see [LICENSE](LICENSE).
