@@ -1,0 +1,32 @@
+{
+  "impact": {
+    "category": "block",
+    "subtitle": "subtitles.crashy.impact",
+    "sounds": [
+      "crashy:impact_1",
+      "crashy:impact_2",
+      "crashy:impact_3"
+    ]
+  },
+  "launch": {
+    "category": "player",
+    "subtitle": "subtitles.crashy.launch",
+    "sounds": [
+      "crashy:launch"
+    ]
+  },
+  "activate": {
+    "category": "block",
+    "subtitle": "subtitles.crashy.activate",
+    "sounds": [
+      "crashy:activate"
+    ]
+  },
+  "charged": {
+    "category": "player",
+    "subtitle": "subtitles.crashy.charged",
+    "sounds": [
+      "crashy:charged"
+    ]
+  }
+}

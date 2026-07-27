@@ -1,0 +1,6 @@
+{
+  "variants": {
+    "triggered=false": { "model": "crashy:block/physics_activator" },
+    "triggered=true": { "model": "crashy:block/physics_activator_triggered" }
+  }
+}

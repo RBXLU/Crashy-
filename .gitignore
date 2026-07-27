@@ -1,0 +1,31 @@
+# Gradle
+build/
+.gradle/
+out/
+
+# Dev-run worlds and logs produced by `gradlew runClient` / `runServer`
+run/
+runs/
+
+# The wrapper jar is intentionally NOT ignored: it is what makes ./gradlew work
+# on a fresh checkout.
+
+# IDEs
+.idea/
+.vscode/
+*.iml
+*.ipr
+*.iws
+.eclipse/
+.settings/
+.classpath
+.project
+
+# Tooling scratch
+__pycache__/
+*.pyc
+.claude/
+
+# OS
+.DS_Store
+Thumbs.db

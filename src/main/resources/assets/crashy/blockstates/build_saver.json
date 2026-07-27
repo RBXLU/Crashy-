@@ -1,0 +1,6 @@
+{
+  "variants": {
+    "lit=false": { "model": "crashy:block/build_saver" },
+    "lit=true": { "model": "crashy:block/build_saver_loaded" }
+  }
+}

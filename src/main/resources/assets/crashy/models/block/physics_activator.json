@@ -1,0 +1,95 @@
+{
+  "parent": "minecraft:block/block",
+  "ambientocclusion": false,
+  "textures": {
+    "casing": "crashy:block/machine_casing",
+    "plate": "crashy:block/physics_activator_top",
+    "core": "crashy:block/physics_core",
+    "particle": "crashy:block/machine_casing"
+  },
+  "elements": [
+    {
+      "__comment": "base plate",
+      "from": [0, 0, 0],
+      "to": [16, 3, 16],
+      "faces": {
+        "north": { "uv": [0, 13, 16, 16], "texture": "#casing" },
+        "south": { "uv": [0, 13, 16, 16], "texture": "#casing" },
+        "west":  { "uv": [0, 13, 16, 16], "texture": "#casing" },
+        "east":  { "uv": [0, 13, 16, 16], "texture": "#casing" },
+        "up":    { "uv": [0, 0, 16, 16], "texture": "#plate" },
+        "down":  { "uv": [0, 0, 16, 16], "texture": "#plate", "cullface": "down" }
+      }
+    },
+    {
+      "__comment": "top plate",
+      "from": [0, 13, 0],
+      "to": [16, 16, 16],
+      "faces": {
+        "north": { "uv": [0, 0, 16, 3], "texture": "#casing" },
+        "south": { "uv": [0, 0, 16, 3], "texture": "#casing" },
+        "west":  { "uv": [0, 0, 16, 3], "texture": "#casing" },
+        "east":  { "uv": [0, 0, 16, 3], "texture": "#casing" },
+        "up":    { "uv": [0, 0, 16, 16], "texture": "#plate", "cullface": "up" },
+        "down":  { "uv": [0, 0, 16, 16], "texture": "#plate" }
+      }
+    },
+    {
+      "__comment": "corner post, north-west",
+      "from": [0, 3, 0],
+      "to": [3, 13, 3],
+      "faces": {
+        "north": { "uv": [0, 3, 3, 13], "texture": "#casing" },
+        "south": { "uv": [0, 3, 3, 13], "texture": "#casing" },
+        "west":  { "uv": [0, 3, 3, 13], "texture": "#casing" },
+        "east":  { "uv": [0, 3, 3, 13], "texture": "#casing" }
+      }
+    },
+    {
+      "__comment": "corner post, north-east",
+      "from": [13, 3, 0],
+      "to": [16, 13, 3],
+      "faces": {
+        "north": { "uv": [13, 3, 16, 13], "texture": "#casing" },
+        "south": { "uv": [13, 3, 16, 13], "texture": "#casing" },
+        "west":  { "uv": [13, 3, 16, 13], "texture": "#casing" },
+        "east":  { "uv": [13, 3, 16, 13], "texture": "#casing" }
+      }
+    },
+    {
+      "__comment": "corner post, south-west",
+      "from": [0, 3, 13],
+      "to": [3, 13, 16],
+      "faces": {
+        "north": { "uv": [0, 3, 3, 13], "texture": "#casing" },
+        "south": { "uv": [0, 3, 3, 13], "texture": "#casing" },
+        "west":  { "uv": [13, 3, 16, 13], "texture": "#casing" },
+        "east":  { "uv": [13, 3, 16, 13], "texture": "#casing" }
+      }
+    },
+    {
+      "__comment": "corner post, south-east",
+      "from": [13, 3, 13],
+      "to": [16, 13, 16],
+      "faces": {
+        "north": { "uv": [13, 3, 16, 13], "texture": "#casing" },
+        "south": { "uv": [13, 3, 16, 13], "texture": "#casing" },
+        "west":  { "uv": [13, 3, 16, 13], "texture": "#casing" },
+        "east":  { "uv": [13, 3, 16, 13], "texture": "#casing" }
+      }
+    },
+    {
+      "__comment": "the caged core",
+      "from": [3, 3, 3],
+      "to": [13, 13, 13],
+      "faces": {
+        "north": { "uv": [3, 3, 13, 13], "texture": "#core" },
+        "south": { "uv": [3, 3, 13, 13], "texture": "#core" },
+        "west":  { "uv": [3, 3, 13, 13], "texture": "#core" },
+        "east":  { "uv": [3, 3, 13, 13], "texture": "#core" },
+        "up":    { "uv": [3, 3, 13, 13], "texture": "#core" },
+        "down":  { "uv": [3, 3, 13, 13], "texture": "#core" }
+      }
+    }
+  ]
+}
